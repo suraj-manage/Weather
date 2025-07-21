@@ -10,8 +10,8 @@ import Sidebar from './components/SideBar';
 import './index.css';
 
 const ads = [
-  { img: '/src/logo.jpg', link: 'https://yourstore.com',
-    img: '/src/logo.jpg', link: 'https://google.com'
+  { img: '/src/img/logo.jpg', link: 'https://yourstore.com',
+    img: '/src/img/ad.jpg', link: 'https://google.com'
    }
 ];
 
