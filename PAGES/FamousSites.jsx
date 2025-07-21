@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import ButtonGroup from '../components/ButtonsGroup';
+import React, { useEffect, useState } from 'react';
 import ContentArea from '../components/ContentArea';
 import { fetchFamousSites } from '../utils/FetchFamousSites';
 
-function FamousSites() {
-  const [area, setArea] = useState('');
+function FamousSites({ area }) {
   const [title, setTitle] = useState('Welcome to Local-Guide');
   const [content, setContent] = useState('Your go-to guide for navigating the world...');
   const [alerts, setAlerts] = useState([]);
@@ -12,25 +10,32 @@ function FamousSites() {
   const [temperature, setTemperature] = useState(null);
 
   useEffect(() => {
-    if (!area) {
-      setTitle('Welcome to Local-Guide');
-      setContent('Your go-to guide for navigating the world...');
-    } else {
-      setTitle(`Welcome to ${area}`);
+    if (area) {
+      setTitle(`Top places in ${area}`);
       fetchFamousSites(area, setContent, setAlerts, setPlaces, setTemperature);
+    } else {
+      setTitle('Welcome to Local-Guide');
+      setContent('Enter a city name in the search bar to discover famous places!');
     }
   }, [area]);
 
   return (
     <div className="layout-offset">
       <h2 style={{ color: '#4b6cb7' }}>{title}</h2>
-      <ButtonGroup
-        fetchWeather={() => {}}
-        fetchWiki={() => {}}
-        fetchAlerts={() => {}}
-        fetchFamousSites={() => fetchFamousSites(area, setContent, setAlerts, setPlaces, setTemperature)}
+
+      {/* You can reuse this if you want buttons; for now, they're not needed here */}
+      {/* <ButtonGroup
+        fetchFamousSites={() =>
+          fetchFamousSites(area, setContent, setAlerts, setPlaces, setTemperature)
+        }
+      /> */}
+
+      <ContentArea
+        content={content}
+        alerts={alerts}
+        places={places}
+        temperature={temperature}
       />
-      <ContentArea content={content} alerts={alerts} places={places} temperature={temperature} />
     </div>
   );
 }

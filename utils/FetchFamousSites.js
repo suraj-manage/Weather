@@ -4,6 +4,7 @@ export const fetchFamousSites = async (area, setContent, setAlerts, setPlaces, s
       const geoRes = await axios.get(`https://api.geoapify.com/v1/geocode/search`, {
         params: { text: area, apiKey }
       });
+      console.log(geoRes)
 
       const location = geoRes.data.features[0]?.geometry;
       if (!location) throw new Error("Location not found");
@@ -16,7 +17,9 @@ export const fetchFamousSites = async (area, setContent, setAlerts, setPlaces, s
           apiKey,
         }
       });
-
+      
+      console.log(placesRes)
+    
       const names = placesRes.data.features.map(p => p.properties.name || 'Unnamed Place');
       setPlaces(names);
       setContent('');

@@ -1,37 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import ButtonGroup from '../components/ButtonsGroup';
+// src/PAGES/Alert.jsx
+import React, { useEffect, useState } from 'react';
 import ContentArea from '../components/ContentArea';
-import { fetchWiki } from '../utils/FetchWiki';
-import { fetchAlerts } from '../utils/FetchAlerts';
+import { fetchAlerts } from '../utils/fetchAlerts';
 
-function Alert() {
-  const [area, setArea] = useState('');
-  const [title, setTitle] = useState('Welcome to Local-Guide');
-  const [content, setContent] = useState('Your go-to guide for navigating the world...');
+function Alert({ area }) {
+  const [title, setTitle] = useState('Local Alerts');
+  const [content, setContent] = useState('');
   const [alerts, setAlerts] = useState([]);
   const [places, setPlaces] = useState([]);
   const [temperature, setTemperature] = useState(null);
 
   useEffect(() => {
-    if (!area) {
-      setTitle('Welcome to Local-Guide');
-      setContent('Your go-to guide for navigating the world...');
+    if (area) {
+      setTitle(`Alerts for ${area}`);
+      fetchAlerts(area, setContent, setAlerts, setPlaces, setTemperature);
     } else {
-      setTitle(`Welcome to ${area}`);
-      fetchWiki(area, setContent, setAlerts, setPlaces, setTemperature);
+      setContent('Enter a city name to see local alerts.');
     }
   }, [area]);
 
   return (
     <div className="layout-offset">
-      <h2 style={{ color: '#4b6cb7' }}>{title}</h2>
-      <ButtonGroup
-        fetchWeather={() => {}}
-        fetchWiki={() => {}}
-        fetchAlerts={() => fetchAlerts(area, setContent, setAlerts, setPlaces, setTemperature)}
-        fetchFamousSites={() => {}}
+      <h2 style={{ color: '#b74b4b' }}>{title}</h2>
+      <ContentArea
+        content={content}
+        alerts={alerts}
+        places={places}
+        temperature={temperature}
       />
-      <ContentArea content={content} alerts={alerts} places={places} temperature={temperature} />
     </div>
   );
 }

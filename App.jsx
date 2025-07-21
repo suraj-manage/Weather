@@ -1,30 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Home from './PAGES/Home';
 import Weather from './PAGES/Weather';
-import Alerts from './PAGES/Alert';
+import Alert from './PAGES/Alert';
 import FamousSites from './PAGES/FamousSites';
 import Sidebar from './components/SideBar';
 import './index.css';
 
 const ads = [
-  { img: '/src/logo.jpg', link: 'https://yourstore.com' },
-  { img: 'https://via.placeholder.com/250x300?text=Local+Cafe', link: 'https://yourcafe.com' }
+  { img: '/src/logo.jpg', link: 'https://yourstore.com',
+    img: '/src/logo.jpg', link: 'https://google.com'
+   }
 ];
 
 function App() {
+  const [area, setArea] = useState('');
+
   return (
     <Router>
-      <Header />
+      <Header area={area} setArea={setArea} />
       <div className="container">
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/weather" element={<Weather />} />
-          <Route path="/alerts" element={<Alerts />} />
-          <Route path="/sites" element={<FamousSites />} />
-        </Routes>
+        <div className="main-container">
+          <Routes>
+            <Route path="/" element={<Home area={area} />} />
+            <Route path="/weather" element={<Weather area={area} />} />
+            <Route path="/alerts" element={<Alert area={area} />} />
+            <Route path="/sites" element={<FamousSites area={area} />} />
+          </Routes>
+        </div>
+      
         <Sidebar ads={ads} />
       </div>
       <Footer />

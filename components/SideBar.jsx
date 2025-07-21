@@ -1,13 +1,14 @@
+// components/Sidebar.jsx
 import React from 'react';
 
 const Sidebar = ({ ads }) => (
-  <aside className="sidebar">
-    <div className="card ad-banner">
-      <a href={ads[0].link} target="_blank" rel="noreferrer">
-        <img src={ads[0].img} alt="Ad" />
+  <div className="sidebar">
+    {ads.map((ad, index) => (
+      <a href={ad.link} target="_blank" rel="noopener noreferrer" key={index}>
+        <img src={ad.img} alt={`Ad ${index + 1}`} />
       </a>
-    </div>
-  </aside>
+    ))}
+  </div>
 );
 
 export default Sidebar;

@@ -1,13 +1,31 @@
-export const fetchWiki = async (area, setContent, setAlerts, setPlaces, setTemperature) => {
+// src/utils/fetchWiki.js
+import axios from 'axios';
+
+export const fetchWiki = async (
+  area,
+  setContent,
+  setAlerts,
+  setPlaces,
+  setTemperature,
+  setWikiInfo
+) => {
   try {
-    const res = await fetch(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(area)}`);
-    if (!res.ok) throw new Error('Not found');
-    const data = await res.json();
-    setContent(data.extract);
-    setAlerts([]);
-    setPlaces([]);
-    setTemperature(null);
+    const res = await axios.get(
+      `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(area)}`
+    );
+
+    if (res.data.extract) {
+      setContent(''); // Clear main content, use wikiInfo instead
+      setWikiInfo(res.data);
+      setAlerts([]);
+      setPlaces([]);
+      setTemperature(null);
+    } else {
+      setContent('No Wikipedia summary found.');
+      setWikiInfo(null);
+    }
   } catch {
-    setContent('No information found.');
+    setContent('Error fetching Wikipedia summary.');
+    setWikiInfo(null);
   }
 };
